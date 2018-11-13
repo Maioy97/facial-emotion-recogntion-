@@ -2,9 +2,6 @@ import cv2
 import sys
 import facedetecion
 
-
-cascPath = 'HAAR_xmls/haarcascade_frontalface_default.xml'
-faceCascade = cv2.CascadeClassifier(cascPath)
 videopath = '../videos/short/'
 videoType=input("videoType")
 if videoType=='cam':
