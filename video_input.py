@@ -17,7 +17,7 @@ while True:
     height, width, channels = frame.shape
     if width>1000:
         frame = cv2.resize(frame, (int(width/3), int(height/3)))
-    frame = facedetecion.detect(frame)
+    face, frame = facedetecion.detect(frame)
     # Display the resulting frame
     cv2.imshow('Video', frame)
 
