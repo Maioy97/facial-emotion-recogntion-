@@ -59,7 +59,7 @@ print(Desc)
 print(np.array(Descriptor).shape)
 knn.save("train.yml")
 #############for test
-ret, results, neighbours ,dist = model.findNearest(Descriptor[0].reshape(1, -1), 3)
+ret, results, neighbours ,dist = knn.findNearest(Descriptor[0].reshape(1, -1), 3)
 print(results)
 ####################
 print('done')
