@@ -52,24 +52,16 @@ for filename in os.listdir(folder):
 print('start training')
 print(datetime.datetime.now())
 
-svm = cv2.ml.SVM_create()
-svm.setType(cv2.ml.SVM_C_SVC)
-svm.setKernel(cv2.ml.SVM_RBF)
-# svm.setDegree(5.0)
-# svm.setGamma(0.0001)
-# svm.setCoef0(0.0)
-# svm.setC(1)
-# svm.setNu(0.21)
-# svm.setP(0.0)
-# svm.setClassWeights(None)
-# svm.setTermCriteria((cv2.TERM_CRITERIA_COUNT, 100, 1.e-06))
+knn = cv2.ml.KNearest_create()
+knn.train(np.array(Descriptor),cv2.ml.ROW_SAMPLE,np.array(Labels))
+
 print(Desc)
 print(np.array(Descriptor).shape)
-svm.train(np.array(Descriptor), cv2.ml.ROW_SAMPLE, np.array(Labels))
-svm.save('svmCatDogbdt.xml')
-#########for test
-print(svm.predict(Descriptor[0].reshape(1, -1))[1][0][0])
-#################
+knn.save("train.yml")
+#############for test
+ret, results, neighbours ,dist = model.findNearest(Descriptor[0].reshape(1, -1), 3)
+print(results)
+####################
 print('done')
 print(datetime.datetime.now())
 
