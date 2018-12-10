@@ -1,0 +1,10 @@
+folders = './images/'
+for foldername in os.listdir(folders):
+    newpath = folders+foldername
+    list_images = os.listdir(newpath)
+    count_images = np.array(list_images).shape
+    count = 0
+    while(count < count_images[0] - 1):
+        img1 = cv2.imread(os.path.join(newpath, list_images[count]))
+        img2 = cv2.imread(os.path.join(newpath, list_images[count + 1]))
+        count = count + 1
