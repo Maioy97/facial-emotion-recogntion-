@@ -16,25 +16,9 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.datasets import make_gaussian_quantiles
 import datetime
-# Read dataset
-#print('reading data set')
-#print(datetime.datetime.now())
 
 Labels = []
 Descriptor = []
-winSize = (64, 64)
-blockSize = (16, 16)
-blockStride = (8, 8)
-cellSize = (8, 8)
-nbins = 9
-derivAperture = 1
-winSigma = 4.
-histogramNormType = 0
-L2HysThreshold = 2.0000000000000001e-01
-gammaCorrection = 0
-nlevels = 64
-hog = cv2.HOGDescriptor(winSize, blockSize, blockStride, cellSize, nbins, derivAperture, winSigma,
-                        histogramNormType, L2HysThreshold, gammaCorrection, nlevels)
 
 folders = './images/'
 for foldername in os.listdir(folders):
@@ -42,6 +26,7 @@ for foldername in os.listdir(folders):
     list_images = os.listdir(newpath)
     count_images = np.array(list_images).shape
     count = 0
+
     while (count < count_images[0] - 1):
         img1 = cv2.imread(os.path.join(newpath, list_images[count]))
         img2 = cv2.imread(os.path.join(newpath, list_images[count + 1]))
@@ -56,27 +41,28 @@ for foldername in os.listdir(folders):
         img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
         img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
 
+        features = []
+        h = []
+        v = []
         # using HOF to extract Features
         flow = cv2.calcOpticalFlowFarneback(img1, img2, None, 0.5, 3, 15, 3, 5, 1.2, 0)
         mag, ang = cv2.cartToPolar(flow[..., 0], flow[..., 1])
         hsv[..., 0] = ang * 180 / np.pi / 2
         hsv[..., 2] = cv2.normalize(mag, None, 0, 255, cv2.NORM_MINMAX)
+        for i in range(8):
+            for j in range(8):
+                histH = cv2.calcHist(hsv[i * 8:(i + 1) * 8, j * 8:(j + 1) * 8, 0], [1], None, [10], [0, 100])
+                histV = cv2.calcHist(hsv[i * 8:(i + 1) * 8, j * 8:(j + 1) * 8, 2], [1], None, [10], [0, 100])
+                h.append(histH)
+                v.append(histV)
 
-        #(0=neutral , 1=happy , 2=sad , 3=surprised , 4=angry , 5=Fear , 6=Disgust)
-        if filename[0] == 'neutral':
-            Labels.append(0)
-        elif filename[0] == 'happy':
-            Labels.append(1)
-        elif filename[0] == 'sad':
-            Labels.append(2)
-        elif filename[0] == 'surprised':
-            Labels.append(3)
-        elif filename[0] == 'angry':
-            Labels.append(4)
-        elif filename[0] == 'Fear':
-            Labels.append(5)
-        elif filename[0] == 'Disgust':
-            Labels.append(6)
+        features = [h, v]
+        Descriptor.append(features)
+
+        print (np.array(features).shape)
+
+        # frrame lable
+        # (0=neutral , 1=happy , 2=sad , 3=surprised , 4=angry , 5=Fear , 6=Disgust)
 
 print('start training')
 print(datetime.datetime.now())

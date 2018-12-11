@@ -11,28 +11,21 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.datasets import make_gaussian_quantiles
 import datetime
 
-folders = './images/'
-for foldername in os.listdir(folders):
-    newpath = folders+foldername
-    list_images = os.listdir(newpath)
-    count_images = np.array(list_images).shape
-    count = 0
-    while(count < count_images[0] - 1):
-        img1 = cv2.imread(os.path.join(newpath, list_images[count]))
-        img2 = cv2.imread(os.path.join(newpath, list_images[count + 1]))
-        count = count + 1
+path = ('../Data_test/images/')
+list_txtFiles = os.listdir('../Data_test/emotion/')
+count_Of_txtFiles = np.array(list_txtFiles).shape[0]
+Actor_folder , emotion_folder , last_img_num , extention = list_txtFiles[0].split('_')
+path_txt=str(list_txtFiles)+str(list_txtFiles[0])
+path_images=(path+Actor_folder+'/'+emotion_folder)
+with open (list_txtFiles) as f:
+    next(f)
+    print (f)
+for filename in os.listdir(path_images):
+    img = cv2.imread(os.path.join(path_images, filename))
+    cv2.imshow('img',img)
+    cv2.waitKey(0)
 
-        img1 = cv2.resize(img1, (64, 64), interpolation=cv2.INTER_AREA)
-        img2 = cv2.resize(img2, (64, 64), interpolation=cv2.INTER_AREA)
+#for i in range(count_Of_txtFiles)
 
-        hsv = np.zeros_like(img1)
-        hsv[..., 1] = 255
 
-        img1 = cv2.cvtColor(img1,cv2.COLOR_BGR2GRAY)
-        img2 = cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY)
 
-        #using HOF to extract Features
-        flow = cv2.calcOpticalFlowFarneback(img1, img2,None, 0.5, 3, 15, 3, 5, 1.2, 0)
-        mag, ang = cv2.cartToPolar(flow[..., 0], flow[..., 1])
-        hsv[..., 0] = ang * 180 / np.pi / 2
-        hsv[..., 2] = cv2.normalize(mag, None, 0, 255, cv2.NORM_MINMAX)
