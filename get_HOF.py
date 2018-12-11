@@ -6,12 +6,9 @@ import os
 from joblib import dump, load
 import matplotlib.pyplot as plt
 import glob
-from sklearn.ensemble import AdaBoostClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.datasets import make_gaussian_quantiles
 import datetime
 
-def trainHOF(img1 , img2):
+def getHOFfeatures(img1 , img2):
     img1 = cv2.resize(img1, (64, 64), interpolation=cv2.INTER_AREA)
     img2 = cv2.resize(img2, (64, 64), interpolation=cv2.INTER_AREA)
 

@@ -6,12 +6,9 @@ import os
 from joblib import dump, load
 import matplotlib.pyplot as plt
 import glob
-from sklearn.ensemble import AdaBoostClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.datasets import make_gaussian_quantiles
 import datetime
 
-def trainHOG( img ):
+def getHOGfeatures( img ):
 
     winSize = (64, 64)
     blockSize = (16, 16)
