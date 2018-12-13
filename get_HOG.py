@@ -26,7 +26,16 @@ def getHOGfeatures( img ):
                             histogramNormType, L2HysThreshold, gammaCorrection, nlevels)
 
     # using HOG to extract Features
-    features = hog.compute(img)
-    features = features.ravel()
+
+    #print(img.shape)
+    #print(features.shape)
+    try:
+        img = cv2.resize(img, (64, 64), fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+        features = hog.compute(img)
+        features = features.ravel()
+    except:#in case more than one image is passed take only one 
+        img = cv2.resize(img[0], (64, 64), fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+        features = hog.compute(img)
+        features = features.ravel()
     #print(np.array(features).shape)
     return features

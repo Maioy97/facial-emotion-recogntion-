@@ -3,7 +3,10 @@ import cv2 as cv
 
 def detect(img):
     face_cascade = cv.CascadeClassifier('HAAR_xmls/haarcascade_frontalface_alt.xml')
-    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    if (len(img.shape) < 3):
+        gray = img
+    else:
+        gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 3)
     roi_color=None
     for (x, y, w, h) in faces:

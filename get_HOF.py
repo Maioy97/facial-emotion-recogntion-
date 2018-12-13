@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 import glob
 import datetime
 
+
+
 def getHOFfeatures(img1 , img2):
     img1 = cv2.resize(img1, (64, 64), interpolation=cv2.INTER_AREA)
     img2 = cv2.resize(img2, (64, 64), interpolation=cv2.INTER_AREA)
@@ -36,5 +38,5 @@ def getHOFfeatures(img1 , img2):
             v.append(histV)
 
     features = [h, v]
-    #print(np.array(features).shape)
-    return features
+
+    return np.array(features).reshape(1280,1)

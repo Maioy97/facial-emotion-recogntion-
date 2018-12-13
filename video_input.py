@@ -1,16 +1,26 @@
 import cv2
 import sys
 import facedetecion
+import predict
+import tkinter as tk
+from tkinter import filedialog
 
 videopath = '../videos/short/'
+root = tk.Tk()
+root.withdraw()
+file_path = filedialog.askopenfilename()#to get video path 
 videoType=input("videoType")
-if videoType=='cam':
+if videoType=='vid':
+    video_capture = cv2.VideoCapture(file_path)
+elif videoType=='cam':
     video_capture = cv2.VideoCapture(0)
-else:
-    video_capture = cv2.VideoCapture(videopath+videoType)
 
+#hogVote, hofVote, bothVote = predict.PredictEmo(video_capture)
+
+#Milestone 1 read video & detect faces
 while True:
     # Capture frame-by-frame
+    #video_capture.set(1,50.0)
     ret, frame = video_capture.read()
     if ret == 0:
         break
