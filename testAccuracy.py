@@ -34,20 +34,25 @@ def test(file, target_dir):
                 current_video_path = os.path.abspath(os.path.join(video_dir, utterance))
 
                 if os.path.exists(current_video_path):
+                    print(str(current_video_path))
                     vid = cv2.VideoCapture(current_video_path)
                     fps = vid.get(cv2.CAP_PROP_FPS)
                     frameCount = int(vid.get(cv2.CAP_PROP_FRAME_COUNT))
-                    duration = float(frameCount) / float(fps)  # in seconds
+                    if fps ==0:
+                        vid.release()#can't render video
+                        continue
+                    else:
+                        duration = float(frameCount) / float(fps) # in seconds
                     FramestoCapturePS = 1  #fps / 3  # number of (frames)/(pair of frames) to capture in each second
 
                     NumFrames = FramestoCapturePS * duration
                     counter=0
-                    if NumFrames > 15 :
-                        NumFrames = 15
-                    print(NumFrames)
+                    #if NumFrames > 15 :
+                    #    NumFrames = 15
+                    #print(NumFrames)
                     predictedlabelsHOG = []
                     predictedlabelsHOF = []
-                    for f in range(NumFrames):
+                    for f in range(int(NumFrames)):
                         while True:# to ensure the captured frame contains a face
                             counter = counter + 1
                             currentFrameTime = random.randint(0, frameCount - 2)
@@ -64,7 +69,7 @@ def test(file, target_dir):
                             face1, img1 = facedetecion.detect(frame1) # get only the face of each frame
                             face2, img2 = facedetecion.detect(frame2)
                             if counter == 100:
-                            	break
+                                break
                             if face1 is not None:			# check if either images does not contain a face go and get an other frame 
                                 if face2 is not None:
                                     break
@@ -75,8 +80,8 @@ def test(file, target_dir):
                         hogfeature = get_HOG.getHOGfeatures(face1)
                         predictedlabelsHOF.append(int(HOFsvm.predict(hoffeature.reshape(1, -1))[1].ravel()[0]))
                         predictedlabelsHOG.append(int(HOGsvm.predict(hogfeature.reshape(1, -1))[1].ravel()[0]))
-                    print(predictedlabelsHOG)
-                    print(predictedlabelsHOF)
+                    #print(predictedlabelsHOG)
+                    #print(predictedlabelsHOF)
                     vid.release() #same as closing a file after reading #release software resource & release hardware resource(ex:camera)
                     # do majority voting and append respectively
                     predictedlabelsHOGcounter=collections.Counter(predictedlabelsHOG)
@@ -85,15 +90,19 @@ def test(file, target_dir):
                     #print(predictedlabelsHOGcounter.most_common(1)[0][0])
                     #print(predictedlabelsHOFcounter.most_common(1)[0][0])
                     #print(predictedlabelsBOTHcounter.most_common(1)[0][0])
-                    labelsHog.append(predictedlabelsHOGcounter.most_common(1)[0][0])
-                    labelsHof.append(predictedlabelsHOFcounter.most_common(1)[0][0])
-                    labelsboth.append(predictedlabelsBOTHcounter.most_common(1)[0][0])
-                    labelsReal.append(int(Emotion))
+                    try:
+                        labelsHog.append(predictedlabelsHOGcounter.most_common(1)[0][0])
+                        labelsHof.append(predictedlabelsHOFcounter.most_common(1)[0][0])
+                        labelsboth.append(predictedlabelsBOTHcounter.most_common(1)[0][0])
+                        labelsReal.append(int(Emotion))
+                    except IndexError:
+                        print(IndexError)
+                        continue
     a = np.asarray([labelsReal, labelsHog, labelsHof, labelsboth])
     a = a.transpose()
     np.savetxt("results.csv", a, delimiter=",", fmt='%10.5f')
 
-	#use zip to compare predicted vs real labels to calculate the accuracy
+    #use zip to compare predicted vs real labels to calculate the accuracy
     #a = [5,1,1,2,1]  b = [0,1,1,2,6] zip(a,b)=[(5, 0), (1, 1), (1, 1), (2, 2), (1, 6)]
     HogAccuracy = sum(1 for x,y in zip(labelsReal,labelsHog) if x == y) / float(len(labelsReal))
     print("Hog Accuracy: "+str(HogAccuracy))

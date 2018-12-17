@@ -14,7 +14,7 @@ def getHOGfeatures( img ):
     blockSize = (16, 16)
     blockStride = (8, 8)
     cellSize = (8, 8)
-    nbins = 9
+    nbins = 10
     derivAperture = 1
     winSigma = 4.
     histogramNormType = 0
@@ -30,11 +30,11 @@ def getHOGfeatures( img ):
     #print(img.shape)
     #print(features.shape)
     try:
-        img = cv2.resize(img, (64, 64), fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+        img = cv2.resize(img, (64, 64), interpolation=cv2.INTER_AREA)
         features = hog.compute(img)
         features = features.ravel()
     except:#in case more than one image is passed take only one 
-        img = cv2.resize(img[0], (64, 64), fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+        img = cv2.resize(img[0], (64, 64), interpolation=cv2.INTER_AREA)
         features = hog.compute(img)
         features = features.ravel()
     #print(np.array(features).shape)

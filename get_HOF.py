@@ -25,6 +25,8 @@ def getHOFfeatures(img1 , img2):
     v = []
 
     # using HOF to extract Features
+    # dense optical flow. It computes the optical flow for all the points in the frame
+    #prev, next,flow(out), pyr_scale, levels, winsize, iterations, poly_n, poly_sigma, flags[, flow]
     flow = cv2.calcOpticalFlowFarneback(img1, img2, None, 0.5, 3, 15, 3, 5, 1.2, 0)
     mag, ang = cv2.cartToPolar(flow[..., 0], flow[..., 1])
     hsv[..., 0] = ang * 180 / np.pi / 2
@@ -32,8 +34,8 @@ def getHOFfeatures(img1 , img2):
 
     for i in range(8):
         for j in range(8):
-            histH = cv2.calcHist(hsv[i * 8:(i + 1) * 8, j * 8:(j + 1) * 8, 0], [1], None, [10], [0, 100])
-            histV = cv2.calcHist(hsv[i * 8:(i + 1) * 8, j * 8:(j + 1) * 8, 2], [1], None, [10], [0, 100])
+            histH = cv2.calcHist(hsv[i * 8:(i + 1) * 8, j * 8:(j + 1) * 8, 0], [1], None, [10], [0, 180])
+            histV = cv2.calcHist(hsv[i * 8:(i + 1) * 8, j * 8:(j + 1) * 8, 2], [1], None, [10], [0, 255])
             h.append(histH)
             v.append(histV)
 

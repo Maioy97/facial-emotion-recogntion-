@@ -40,7 +40,11 @@ def Train(file, target_dir):
                     vid = cv2.VideoCapture(current_video_path)			#get some video meta data
                     fps = vid.get(cv2.CAP_PROP_FPS)
                     frameCount = int(vid.get(cv2.CAP_PROP_FRAME_COUNT))
-                    duration = float(frameCount) / float(fps) # in seconds
+                    if fps ==0:
+                        vid.release()
+                        continue
+                    else:
+                        duration = float(frameCount) / float(fps) # in seconds
                     FramestoCapturePS = 1 #fps/10 #number of (frames)/(pair of frames) to capture in each second
                     
                     NumFrames = int(FramestoCapturePS * duration)
@@ -69,7 +73,7 @@ def Train(file, target_dir):
                             if cv2.waitKey(1) & 0xFF == ord('q'):
                                 break'''
                             if counter == 100:
-                            	break
+                                break
                             if face1 is not None:			# chech if either images does not contain a face go and get an other frame 
                                 if face2 is not None:
                                     break
@@ -95,7 +99,7 @@ def Train(file, target_dir):
     #train with HOG features
     HOGsvm = cv2.ml.SVM_create()
     HOGsvm.setType(cv2.ml.SVM_C_SVC)
-    HOGsvm.setKernel(cv2.ml.SVM_RBF)
+    HOGsvm.setKernel(cv2.ml.SVM_LINEAR)
 	
     HOGsvm.train(np.array(hogDescriptors), cv2.ml.ROW_SAMPLE, np.array(labels))
     HOGsvm.save('HOGsvm.xml')
@@ -105,9 +109,9 @@ def Train(file, target_dir):
     #train with HOF features
     HOFsvm = cv2.ml.SVM_create()
     HOFsvm.setType(cv2.ml.SVM_C_SVC)
-    HOFsvm.setKernel(cv2.ml.SVM_RBF)
-    print(np.array(hofDescriptors).shape)
-    print(np.array(labels).shape)
+    HOFsvm.setKernel(cv2.ml.SVM_LINEAR)
+    #print(np.array(hofDescriptors).shape)
+    #print(np.array(labels).shape)
 
     HOFsvm.train(np.array(hofDescriptors), cv2.ml.ROW_SAMPLE, np.array(labels))
     HOFsvm.save('HOFsvm.xml')

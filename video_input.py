@@ -15,9 +15,9 @@ if videoType=='vid':
 elif videoType=='cam':
     video_capture = cv2.VideoCapture(0)
 
-#hogVote, hofVote, bothVote = predict.PredictEmo(video_capture)
-
-#Milestone 1 read video & detect faces
+hogVote, hofVote, bothVote = predict.PredictEmo(video_capture)
+print("hog "+str(hogVote)+" hof "+ str(hofVote)+" Both " +str(bothVote))
+''''#Milestone 1 read video & detect faces
 while True:
     # Capture frame-by-frame
     #video_capture.set(1,50.0)
@@ -33,7 +33,7 @@ while True:
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-
+'''
 # When everything is done, release the capture
 video_capture.release()
 cv2.destroyAllWindows()
