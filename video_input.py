@@ -2,6 +2,7 @@ import cv2
 import sys
 import facedetecion
 import predict
+import labeldetection
 import tkinter as tk
 from tkinter import filedialog
 
@@ -31,14 +32,20 @@ for i in range(duration):
         x = duration - i
     else:
         end = i + 10
-        hogVote, hofVote, bothVote = predict.PredictEmo(video_capture,i,end)
+        hogVote, hofVote, bothVote, x, y = predict.PredictEmo(video_capture,i,end)
+        genderVote = predict.PredictGender(video_capture,i,end)
         x = 10
+        i += 10
     for j in range(x):
         video_capture.set(1, j)
         ret, frame = video_capture.read()
         if Vote == "HOG":
-            if hofVote == 0:
-                cv2.putText()
+            labeldetection.HOG(frame,hogVote,genderVote,x,y)
+        elif Vote == "HOF":
+            labeldetection.HOG(frame, hofVote, genderVote, x, y)
+        elif Vote == "BOTH":
+            labeldetection.HOG(frame, bothVote, genderVote, x, y)
+
 
 
 

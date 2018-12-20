@@ -13,7 +13,7 @@ def detect(img):
         cv.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
         roi_gray = gray[y:y+h, x:x+w]
         roi_color = img[y:y+h, x:x+w]
-    
-    return roi_color ,img
+
+    return roi_color ,img ,x , y
 
 
