@@ -11,7 +11,7 @@ import facedetecion
 import random
 import collections
 
-def PredictEmo(vid):
+def PredictEmo(vid,start,end):
     print("here")
     predictedlabelsHOG = []
     predictedlabelsHOF = []
@@ -35,13 +35,13 @@ def PredictEmo(vid):
 
     NumFrames = FramestoCapturePS * duration
     counter=0
-    if NumFrames > 20 :
-        NumFrames = 20
+    if NumFrames > 30 :
+        NumFrames = 30
     print(NumFrames)
     for f in range(int(NumFrames)):
         while True:# to ensure the captured frame contains a face
             counter = counter + 1
-            currentFrameTime = random.randint(0, frameCount - 2)
+            currentFrameTime = random.randint(fps * start, fps * end)
             vid.set(1, currentFrameTime)	#"1" the proberty index to get the spicified frame
             ret, frame1 = vid.read()		# ret indicates success of read process(true/false) (ex: returns false when end of 																						#video reached)
             if not ret:						# to ensure the frame was read correctly

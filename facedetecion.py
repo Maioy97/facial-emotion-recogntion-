@@ -10,7 +10,10 @@ def detect(img):
     faces = face_cascade.detectMultiScale(gray, 1.3, 3)
     roi_color=None
     for (x, y, w, h) in faces:
-        cv.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 1)
+        cv.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
         roi_gray = gray[y:y+h, x:x+w]
         roi_color = img[y:y+h, x:x+w]
+    
     return roi_color ,img
+
+

@@ -15,8 +15,36 @@ if videoType=='vid':
 elif videoType=='cam':
     video_capture = cv2.VideoCapture(0)
 
-hogVote, hofVote, bothVote = predict.PredictEmo(video_capture)
-print("hog "+str(hogVote)+" hof "+ str(hofVote)+" Both " +str(bothVote))
+Vote = input("HOG or HOF or BOTH")
+
+#set start and end for function predict
+
+fps = video_capture.get(cv2.CAP_PROP_FPS)
+frameCount = int(video_capture.get(cv2.CAP_PROP_FRAME_COUNT))
+
+if fps > 0:
+    duration = float(frameCount) / float(fps)  # in seconds
+
+for i in range(duration):
+    if duration - i < 10:
+        hogVote, hofVote, bothVote = predict.PredictEmo(video_capture,i,duration)
+        x = duration - i
+    else:
+        end = i + 10
+        hogVote, hofVote, bothVote = predict.PredictEmo(video_capture,i,end)
+        x = 10
+    for j in range(x):
+        video_capture.set(1, j)
+        ret, frame = video_capture.read()
+        if Vote == "HOG":
+            if hofVote == 0:
+                cv2.putText()
+
+
+
+
+#hogVote, hofVote, bothVote = predict.PredictEmo(video_capture)
+#print("hog "+str(hogVote)+" hof "+ str(hofVote)+" Both " +str(bothVote))
 ''''#Milestone 1 read video & detect faces
 while True:
     # Capture frame-by-frame
