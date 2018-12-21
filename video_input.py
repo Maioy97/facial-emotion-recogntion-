@@ -1,19 +1,19 @@
-import cv2
 import sys
 import facedetecion
+import cv2
 import predict
 import labeldetection
 import tkinter as tk
 from tkinter import filedialog
 
-videopath = '../videos/short/'
+video_path = '../videos/short/'
 root = tk.Tk()
 root.withdraw()
 file_path = filedialog.askopenfilename()#to get video path 
-videoType=input("videoType")
-if videoType=='vid':
+videoType = input("videoType")
+if videoType == 'vid':
     video_capture = cv2.VideoCapture(file_path)
-elif videoType=='cam':
+elif videoType == 'cam':
     video_capture = cv2.VideoCapture(0)
 
 Vote = input("HOG or HOF or BOTH")
@@ -28,19 +28,22 @@ if fps > 0:
 
 for i in range(duration):
     if duration - i < 10:
-        hogVote, hofVote, bothVote = predict.PredictEmo(video_capture,i,duration)
+        # if the remaining part of the video is shorter than 10, predict labels in the range i and the video end
+        hogVote, hofVote, bothVote = predict.PredictEmo(video_capture, i, duration)
+        genderVote = predict.PredictGender(video_capture, i, duration)
         x = duration - i
     else:
+        # if it's longer, predict labels in a 10 second range that starts at i,range = 10 ,skip the labeled 10 secs
         end = i + 10
-        hogVote, hofVote, bothVote, x, y = predict.PredictEmo(video_capture,i,end)
-        genderVote = predict.PredictGender(video_capture,i,end)
+        hogVote, hofVote, bothVote, x, y = predict.PredictEmo(video_capture, i, end)
+        genderVote = predict.PredictGender(video_capture, i, end)
         x = 10
         i += 10
     for j in range(x):
         video_capture.set(1, j)
         ret, frame = video_capture.read()
         if Vote == "HOG":
-            labeldetection.HOG(frame,hogVote,genderVote,x,y)
+            labeldetection.HOG(frame, hogVote, genderVote, x, y)
         elif Vote == "HOF":
             labeldetection.HOG(frame, hofVote, genderVote, x, y)
         elif Vote == "BOTH":
