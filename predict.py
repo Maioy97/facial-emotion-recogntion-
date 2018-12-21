@@ -14,7 +14,7 @@ import collections
 
 
 def PredictEmo(vid, start, end):
-    print("here")
+    print("PredictEmo")
     predictedlabelsHOG = []
     predictedlabelsHOF = []
     # get random "pairs" of frames
@@ -22,9 +22,11 @@ def PredictEmo(vid, start, end):
     # extract HoG & HOF Features
     # reload svm
     # predict label
-
-    HOGsvm = cv2.ml.SVM_load('HOGsvm.xml')
-    HOFsvm = cv2.ml.SVM_load('HOFsvm.xml')
+    folder_path = "../modules/"
+    hof_file = "hofsvm1.xml"
+    hog_file = 'HOGsvm1.xml'
+    HOGsvm = cv2.ml.SVM_load(folder_path+hog_file)
+    HOFsvm = cv2.ml.SVM_load(folder_path+hof_file)
 
     fps = vid.get(cv2.CAP_PROP_FPS)
     frameCount = int(vid.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -43,7 +45,7 @@ def PredictEmo(vid, start, end):
     for f in range(int(NumFrames)):
         while True:  # ensuring the captured frame contains a face
             counter = counter + 1
-            currentFrameTime = random.randint(fps * start, fps * end)
+            currentFrameTime = random.randint(int(fps * start), int(fps * end))
             vid.set(1, currentFrameTime)   # "1" the property index to get the specified frame
             ret, frame1 = vid.read()	   # ret indicates success of read process(true/false)(ex: false > end of video)
             if not ret:					   # to ensure the frame was read correctly
@@ -68,7 +70,7 @@ def PredictEmo(vid, start, end):
         hogfeature = get_HOG.getHOGfeatures(face1)
         predictedlabelsHOF.append(int(HOFsvm.predict(hoffeature.reshape(1, -1))[1].ravel()[0]))
         predictedlabelsHOG.append(int(HOGsvm.predict(hogfeature.reshape(1, -1))[1].ravel()[0]))
-    # print(predictedlabelsHOG)
+    print(predictedlabelsHOG)
     # print(predictedlabelsHOF)
     vid.release()  # same as closing a file :release software resource & release hardware resource(ex:camera)
     # do majority voting and append respectively
@@ -83,16 +85,18 @@ def PredictEmo(vid, start, end):
 
 
 def PredictGender(vid, start, end):
+
     print("Predict Gender")
     predictedlabelsHOG = []
-
     # get random frames
     # get only the face of the frame
     # extract HoG Features
     # reload svm
     # predict label
 
-    HOGsvm = cv2.ml.SVM_load('../modules/genderDetectionModel.xml')
+    folder_path = "../modules/"
+    hog_svm_file = "genderDetectionModel.xml"
+    HOGsvm = cv2.ml.SVM_load(folder_path+hog_svm_file)
 
     fps = vid.get(cv2.CAP_PROP_FPS)
     frameCount = int(vid.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -111,7 +115,7 @@ def PredictGender(vid, start, end):
     for f in range(int(NumFrames)):
         while True:  # to ensure the captured frame contains a face
             counter = counter + 1
-            currentFrameTime = random.randint(fps * start, fps * end)
+            currentFrameTime = random.randint(int(fps * start), int(fps * end))
             vid.set(1, currentFrameTime)  # "1" the property index to get the specified frame
             ret, frame1 = vid.read()      # ret indicates success of read process(true/false)(ex: false > end of video)
             if not ret:					  # to ensure the frame was read correctly

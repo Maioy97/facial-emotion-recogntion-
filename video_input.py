@@ -9,14 +9,15 @@ from tkinter import filedialog
 video_path = '../videos/short/'
 root = tk.Tk()
 root.withdraw()
-file_path = filedialog.askopenfilename()#to get video path 
-videoType = input("videoType")
+file_path = filedialog.askopenfilename()#to get video path
+video_capture = cv2.VideoCapture(file_path)
+videoType = input("videoType: ")
 if videoType == 'vid':
     video_capture = cv2.VideoCapture(file_path)
 elif videoType == 'cam':
     video_capture = cv2.VideoCapture(0)
 
-Vote = input("HOG or HOF or BOTH")
+Vote = input("HOG or HOF or BOTH: ")
 
 #set start and end for function predict
 
@@ -24,7 +25,7 @@ fps = video_capture.get(cv2.CAP_PROP_FPS)
 frameCount = int(video_capture.get(cv2.CAP_PROP_FRAME_COUNT))
 
 if fps > 0:
-    duration = float(frameCount) / float(fps)  # in seconds
+    duration = int(float(frameCount) / float(fps))  # in seconds
 
 for i in range(duration):
     if duration - i < 10:
