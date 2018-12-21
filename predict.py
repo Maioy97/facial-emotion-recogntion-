@@ -1,10 +1,10 @@
-import numpy as np
+'''import numpy as np
 import os
 import sys
 from joblib import dump, load
 import matplotlib.pyplot as plt
 import glob
-
+'''
 import cv2
 import get_HOG
 import get_HOF

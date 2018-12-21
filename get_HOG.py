@@ -1,12 +1,15 @@
-from tkinter import Label
+'''from tkinter import Label
 
 import numpy as np
-import cv2
+
 import os
 from joblib import dump, load
 import matplotlib.pyplot as plt
 import glob
 import datetime
+'''
+import cv2
+
 
 def getHOGfeatures( img ):
 
