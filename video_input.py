@@ -27,9 +27,10 @@ Vote = Vote.upper()
 
 fps = video_capture.get(cv2.CAP_PROP_FPS)
 frameCount = int(video_capture.get(cv2.CAP_PROP_FRAME_COUNT))
-
 if fps > 0:
     duration = int(float(frameCount) / float(fps))  # in seconds
+else:
+    print("Can't render video")
 
 gender_vote=predict.PredictGender(video_capture, 0, duration)
 
@@ -38,29 +39,24 @@ for i in range(duration):
         # if the remaining part of the video is shorter than 10, predict labels in the range i and the video end
         begin = i
         end = duration
-
     else:
         # if it's longer, predict labels in a 10 second range that starts at i,range = 10 ,skip the labeled 10 secs
         begin = i
         end = i + 10
         i += 10
-
-    if hogVote>-1:
-        print("prediction done ")
-        if Vote == "HOG":
-            hogVote = predict.predictEmoHOG(video_capture, begin, end)
-            labeldetection.write_labels(video_capture, hogVote, gender_vote, begin, end)
-        elif Vote == "HOF":
-            hofVote = predict.predictEmoHOF(video_capture, begin, end)
-            labeldetection.write_labels(video_capture, hofVote, gender_vote, begin, end)
-        elif Vote == "BOTH":
-            bothVote = predict.PredictEmoBoth(video_capture, begin, end)
-            labeldetection.write_labels(video_capture, bothVote, gender_vote, begin, end)
-    
+    if Vote == "HOG":
+        hogVote = predict.predictEmoHOG(video_capture, begin, end)
+        labeldetection.write_labels(video_capture, hogVote, gender_vote, begin, end)
+    elif Vote == "HOF":
+        hofVote = predict.predictEmoHOF(video_capture, begin, end)
+        labeldetection.write_labels(video_capture, hofVote, gender_vote, begin, end)
+    elif Vote == "BOTH":
+        bothVote = predict.PredictEmoBoth(video_capture, begin, end)
+        labeldetection.write_labels(video_capture, bothVote, gender_vote, begin, end)
+    print("prediction done ")
     print(i)
 
-
-
+video_capture.release()
 
 #hogVote, hofVote, bothVote = predict.PredictEmo(video_capture)
 #print("hog "+str(hogVote)+" hof "+ str(hofVote)+" Both " +str(bothVote))
