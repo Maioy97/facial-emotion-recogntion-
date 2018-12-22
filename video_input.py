@@ -22,7 +22,7 @@ elif videoType == 'cam':
     video_capture = cv2.VideoCapture(0)
 '''
 Vote = input("HOG or HOF or BOTH: ")
-
+Vote = Vote.upper()
 #set start and end for function predict
 
 fps = video_capture.get(cv2.CAP_PROP_FPS)
@@ -42,7 +42,6 @@ for i in range(duration):
         begin = i
         end = i + 10
         i += 10
-
     hogVote, hofVote, bothVote, gender_vote = predict.predict_both(video_capture, begin, end)
     if Vote == "HOG":
         labeldetection.write_labels(video_capture, hogVote, gender_vote, begin, end)
@@ -50,7 +49,7 @@ for i in range(duration):
         labeldetection.write_labels(video_capture, hofVote, gender_vote, begin, end)
     elif Vote == "BOTH":
         labeldetection.write_labels(video_capture, bothVote, gender_vote, begin, end)
-
+    print(i)
 
 
 

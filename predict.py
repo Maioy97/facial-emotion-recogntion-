@@ -144,7 +144,7 @@ def PredictGender(vid, start, end):
 
 
 def predict_both(vid, start, end):
-    print("PredictEmo")
+    print("Predict Both")
     predicted_labels_hog_emo = []
     predicted_labels_hof_emo = []
     predicted_labels_hog_gender = []
@@ -202,12 +202,13 @@ def predict_both(vid, start, end):
             break
         hof_feature = get_HOF.getHOFfeatures(face1, face2)
         hog_feature = get_HOG.getHOGfeatures(face1)
+        hog_feature2 = get_HOG.getHOGfeatures128(face1)
         hog_f2 = np.array(hog_feature)
         print("array shape", hog_f2.shape)
 
         predicted_labels_hof_emo.append(int(hof_svm_emo.predict(hof_feature.reshape(1, -1))[1].ravel()[0]))
-        predicted_labels_hog_emo.append(int(hog_svm_emo.predict(hog_feature.reshape(1, -1))[1].ravel()[0]))
-        predicted_labels_hog_gender.append(int(hog_svm_gender.predict(hog_feature)[1].ravel()[0]))
+        predicted_labels_hog_emo.append(int(hog_svm_emo.predict(hog_f2.reshape(1, -1))[1].ravel()[0]))
+        predicted_labels_hog_gender.append(int(hog_svm_gender.predict(hog_feature2.reshape(1, -1))[1].ravel()[0]))
     print(predicted_labels_hog_emo)
     vid.release()  # same as closing a file :release software resource & release hardware resource(ex:camera)
     # do majority voting and append respectively

@@ -2,7 +2,6 @@ import numpy as np
 import datetime 
 import cv2
 import os
-from google.colab import files
 
 def train():
 	train_path = "/content/UTKFace"
