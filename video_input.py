@@ -31,7 +31,7 @@ frameCount = int(video_capture.get(cv2.CAP_PROP_FRAME_COUNT))
 if fps > 0:
     duration = int(float(frameCount) / float(fps))  # in seconds
 
-gender_vote=predict.PredictGender(video_capture, begin, end)
+gender_vote=predict.PredictGender(video_capture, 0, duration)
 
 for i in range(duration):
     if duration - i < 10:
