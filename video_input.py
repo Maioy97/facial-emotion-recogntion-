@@ -9,14 +9,18 @@ from tkinter import filedialog
 video_path = '../videos/short/'
 root = tk.Tk()
 root.withdraw()
-file_path = filedialog.askopenfilename()#to get video path
+print("start")
+file_path = filedialog.askopenfilename()  # to get video path
 video_capture = cv2.VideoCapture(file_path)
+'''video_capture = cv2.VideoCapture(file_path)
 videoType = input("videoType: ")
+
 if videoType == 'vid':
+    file_path = filedialog.askopenfilename()  # to get video path
     video_capture = cv2.VideoCapture(file_path)
 elif videoType == 'cam':
     video_capture = cv2.VideoCapture(0)
-
+'''
 Vote = input("HOG or HOF or BOTH: ")
 
 #set start and end for function predict
@@ -30,25 +34,22 @@ if fps > 0:
 for i in range(duration):
     if duration - i < 10:
         # if the remaining part of the video is shorter than 10, predict labels in the range i and the video end
-        hogVote, hofVote, bothVote = predict.PredictEmo(video_capture, i, duration)
-        genderVote = predict.PredictGender(video_capture, i, duration)
-        x = duration - i
+        begin = i
+        end = duration
+
     else:
         # if it's longer, predict labels in a 10 second range that starts at i,range = 10 ,skip the labeled 10 secs
+        begin = i
         end = i + 10
-        hogVote, hofVote, bothVote, x, y = predict.PredictEmo(video_capture, i, end)
-        genderVote = predict.PredictGender(video_capture, i, end)
-        x = 10
         i += 10
-    for j in range(x):
-        video_capture.set(1, j)
-        ret, frame = video_capture.read()
-        if Vote == "HOG":
-            labeldetection.HOG(frame, hogVote, genderVote, x, y)
-        elif Vote == "HOF":
-            labeldetection.HOG(frame, hofVote, genderVote, x, y)
-        elif Vote == "BOTH":
-            labeldetection.HOG(frame, bothVote, genderVote, x, y)
+
+    hogVote, hofVote, bothVote, gender_vote = predict.predict_both(video_capture, begin, end)
+    if Vote == "HOG":
+        labeldetection.write_labels(video_capture, hogVote, gender_vote, begin, end)
+    elif Vote == "HOF":
+        labeldetection.write_labels(video_capture, hofVote, gender_vote, begin, end)
+    elif Vote == "BOTH":
+        labeldetection.write_labels(video_capture, bothVote, gender_vote, begin, end)
 
 
 
