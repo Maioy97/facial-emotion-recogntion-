@@ -40,13 +40,15 @@ def write_labels(vid, emo_vote, gender_vote, start, end):
     for f in range(start_frame, end_frame):
         vid.set(1, f)            # "1" the property index to get the specified frame
         ret, frame = vid.read()  # ret indicates success of read process(true/false)(ex: false > end of video)
+        if width > 1000:
+            frame = cv.resize(frame, (int(width / 5), int(height / 5)))
         if not ret:              # to ensure the frame was read correctly
             print(str(frame_count) + " err1")
             continue
         face, img, x, y = facedetecion.detect(frame)  # get only the face of each frame
         # writing labels
         n_frame = cv.putText(img, label_string, (x - 50, y - 50), font, 0.8, (255, 255, 255), 2, cv.LINE_AA)
-        cv.imshow(n_frame)
+        cv.imshow("vid",n_frame)
         # out.write(n_frame)
         if cv.waitKey(1) & 0xFF == ord('q'):
             break

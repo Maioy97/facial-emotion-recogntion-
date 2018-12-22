@@ -42,7 +42,11 @@ for i in range(duration):
         begin = i
         end = i + 10
         i += 10
-    hogVote, hofVote, bothVote, gender_vote = predict.predict_both(video_capture, begin, end)
+    #hogVote, hofVote, bothVote, gender_vote = predict.predict_both(video_capture, begin, end)
+    hogVote =1
+    hofVote=1
+    bothVote=1
+    gender_vote=0
     if hogVote>-1:
         print("prediction done ")
         if Vote == "HOG":
