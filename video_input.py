@@ -56,8 +56,6 @@ for i in range(duration):
     print("prediction done ")
     print(i)
 
-video_capture.release()
-
 #hogVote, hofVote, bothVote = predict.PredictEmo(video_capture)
 #print("hog "+str(hogVote)+" hof "+ str(hofVote)+" Both " +str(bothVote))
 ''''#Milestone 1 read video & detect faces
