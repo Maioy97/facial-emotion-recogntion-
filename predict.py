@@ -168,14 +168,14 @@ def predict_both(vid, start, end):
         duration = float(frame_count) / float(fps)  # in seconds
     else:
         print("can't render video")
-        return -1, -1, -1
+        return -1, -1, -1,-1
     FramestoCapturePS = 1  # fps / 3  # number of (frames)/(pair of frames) to capture in each second
 
     NumFrames = FramestoCapturePS * duration
     counter = 0
     if NumFrames > 30:
         NumFrames = 30
-    print(NumFrames)
+    #print(NumFrames)
     for f in range(int(NumFrames)):
         while True:  # ensuring the captured frame contains a face
             counter = counter + 1
@@ -203,13 +203,13 @@ def predict_both(vid, start, end):
         hof_feature = get_HOF.getHOFfeatures(face1, face2)
         hog_feature = get_HOG.getHOGfeatures(face1)
         hog_feature2 = get_HOG.getHOGfeatures128(face1)
-        hog_f2 = np.array(hog_feature)
-        print("array shape", hog_f2.shape)
+        hog_f2 = np.float32(hog_feature2)
+        # print("array shape", hog_f2.shape)
 
         predicted_labels_hof_emo.append(int(hof_svm_emo.predict(hof_feature.reshape(1, -1))[1].ravel()[0]))
-        predicted_labels_hog_emo.append(int(hog_svm_emo.predict(hog_f2.reshape(1, -1))[1].ravel()[0]))
-        predicted_labels_hog_gender.append(int(hog_svm_gender.predict(hog_feature2.reshape(1, -1))[1].ravel()[0]))
-    print(predicted_labels_hog_emo)
+        predicted_labels_hog_emo.append(int(hog_svm_emo.predict(hog_feature.reshape(1, -1))[1].ravel()[0]))
+        predicted_labels_hog_gender.append(int(hog_svm_gender.predict(hog_f2.reshape(1, -1))[1].ravel()[0]))
+    #print(predicted_labels_hog_emo)
     vid.release()  # same as closing a file :release software resource & release hardware resource(ex:camera)
     # do majority voting and append respectively
     predicted_labels_hog_emo_counter = collections.Counter(predicted_labels_hog_emo)
@@ -222,5 +222,5 @@ def predict_both(vid, start, end):
     label_hof = predicted_labels_hof_emo_counter.most_common(1)[0][0]
     label_both = predicted_labels_both_counter.most_common(1)[0][0]
     label_gender = predicted_labels_hof_gender_counter.most_common(1)[0][0]
-    return label_hof, label_hog, label_both, label_gender
+    return label_hog, label_hof, label_both, label_gender
 

@@ -28,7 +28,7 @@ def train():
 	train_labelsnp = np.array(train_labels)
 	svm.train(train_features, cv2.ml.ROW_SAMPLE, train_labelsnp)
 	print("training done", datetime.datetime.now())
-	svm.save("genderDetectionModel.xml")
+	# svm.save("genderDetectionModel.xml")
 	print("model saved", datetime.datetime.now())
 
 def test():

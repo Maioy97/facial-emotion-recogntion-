@@ -41,4 +41,4 @@ def getHOFfeatures(img1, img2):
 
     features = [h, v]
 
-    return np.array(features).reshape(1280,1)
+    return np.array(features).reshape(1280, 1)

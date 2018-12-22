@@ -1,8 +1,8 @@
-'''from tkinter import Label
+from tkinter import Label
 
 import numpy as np
 
-import os
+'''import os
 from joblib import dump, load
 import matplotlib.pyplot as plt
 import glob
@@ -45,7 +45,7 @@ def getHOGfeatures( img ):
 
 
 def getHOGfeatures128(img):
-    winSize = (64, 128)
+    '''winSize = (64, 128)
     blockSize = (16, 16)
     blockStride = (8, 8)
     cellSize = (8, 8)
@@ -59,17 +59,18 @@ def getHOGfeatures128(img):
 
     hog = cv2.HOGDescriptor(winSize, blockSize, blockStride, cellSize, nbins, derivAperture, winSigma,
                             histogramNormType, L2HysThreshold, gammaCorrection, nlevels)
-
+'''
     # using HOG to extract Features
 
+    hog = cv2.HOGDescriptor()
     #print(img.shape)
     #print(features.shape)
     try:
-        img = cv2.resize(img, (64, 64), interpolation=cv2.INTER_AREA)
+        img = cv2.resize(img, (64, 128), interpolation=cv2.INTER_AREA)
         features = hog.compute(img)
         features = features.ravel()
     except:#in case more than one image is passed take only one
-        img = cv2.resize(img[0], (64, 64), interpolation=cv2.INTER_AREA)
+        img = cv2.resize(img[0], (64, 128), interpolation=cv2.INTER_AREA)
         features = hog.compute(img)
         features = features.ravel()
     #print(np.array(features).shape)

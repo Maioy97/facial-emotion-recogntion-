@@ -43,12 +43,15 @@ for i in range(duration):
         end = i + 10
         i += 10
     hogVote, hofVote, bothVote, gender_vote = predict.predict_both(video_capture, begin, end)
-    if Vote == "HOG":
-        labeldetection.write_labels(video_capture, hogVote, gender_vote, begin, end)
-    elif Vote == "HOF":
-        labeldetection.write_labels(video_capture, hofVote, gender_vote, begin, end)
-    elif Vote == "BOTH":
-        labeldetection.write_labels(video_capture, bothVote, gender_vote, begin, end)
+    if hogVote>-1:
+        print("prediction done ")
+        if Vote == "HOG":
+            labeldetection.write_labels(video_capture, hogVote, gender_vote, begin, end)
+        elif Vote == "HOF":
+            labeldetection.write_labels(video_capture, hofVote, gender_vote, begin, end)
+        elif Vote == "BOTH":
+            labeldetection.write_labels(video_capture, bothVote, gender_vote, begin, end)
+    
     print(i)
 
 

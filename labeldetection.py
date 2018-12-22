@@ -14,7 +14,7 @@ def write_labels(vid, emo_vote, gender_vote, start, end):
     height = vid.get(cv.CAP_PROP_FRAME_HEIGHT)
     width = vid.get(cv.CAP_PROP_FRAME_WIDTH)
     fourcc = vid.get(cv.CAP_PROP_FOURCC)  # cv.VideoWriter_fourcc(*' DIVX')
-    out = cv.VideoWriter("../output/"+'output.mp4', fourcc, fps, (width, height))
+    #out = cv.VideoWriter("../output/"+'output.mp4', fourcc, int(fps), (int(width),int( height)))
 
     label_string = ""
     if emo_vote == 0:
@@ -36,7 +36,6 @@ def write_labels(vid, emo_vote, gender_vote, start, end):
         label_string += " Man"
     elif gender_vote == 1:
         label_string += " Woman"
-    print(label_string)
     # loop over frames and write labels for each frame
     for f in range(start_frame, end_frame):
         vid.set(1, f)            # "1" the property index to get the specified frame
@@ -48,10 +47,10 @@ def write_labels(vid, emo_vote, gender_vote, start, end):
         # writing labels
         n_frame = cv.putText(img, label_string, (x - 50, y - 50), font, 0.8, (255, 255, 255), 2, cv.LINE_AA)
         cv.imshow(n_frame)
-        out.write(n_frame)
+        # out.write(n_frame)
         if cv.waitKey(1) & 0xFF == ord('q'):
             break
-    out.release()
+    # out.release()
     cv.destroyAllWindows()
-    print("done")
+    print(label_string)
 
