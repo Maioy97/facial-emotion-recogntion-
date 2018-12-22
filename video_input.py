@@ -31,6 +31,8 @@ frameCount = int(video_capture.get(cv2.CAP_PROP_FRAME_COUNT))
 if fps > 0:
     duration = int(float(frameCount) / float(fps))  # in seconds
 
+gender_vote=predict.PredictGender(video_capture, begin, end)
+
 for i in range(duration):
     if duration - i < 10:
         # if the remaining part of the video is shorter than 10, predict labels in the range i and the video end
@@ -43,7 +45,6 @@ for i in range(duration):
         end = i + 10
         i += 10
 
-    gender_vote=predict.PredictGender(video_capture, begin, end)
     if hogVote>-1:
         print("prediction done ")
         if Vote == "HOG":

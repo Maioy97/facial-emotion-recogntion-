@@ -238,7 +238,7 @@ def PredictGender(vid, start, end):
             print("can't find faces in video")
             return -1
         if face is not None:  # check if either images does not contain a face go and get an other frame
-            continue
+            break
 
     hog_feature = get_HOG.getHOGfeatures128(face)
     final_label = int(hog_svm_emo.predict(hog_feature.reshape(1, -1))[1].ravel()[0])
