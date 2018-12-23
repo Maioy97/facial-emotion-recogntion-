@@ -15,7 +15,7 @@ import collections
 
 
 
-def predictEmoHOF(vid, start, end):
+def predictEmoHOF(vid, start, end, hof_svm_emo):
     print("PredictEmoHOF")
     predicted_labels_hof_emo = []
     # get random "pairs" of frames
@@ -23,18 +23,15 @@ def predictEmoHOF(vid, start, end):
     # extract HoG & HOF Features
     # reload svm
     # predict label
-    folder_path = "../modules/"
-    hof_file = "HOFsvm1.xml"
-    hof_svm_emo = cv2.ml.SVM_load(folder_path + hof_file)
 
     fps = vid.get(cv2.CAP_PROP_FPS)
     frameCount = int(vid.get(cv2.CAP_PROP_FRAME_COUNT))
     if fps > 0:
-        duration = float(frameCount) / float(fps)  # in seconds
+        duration = end - start  # in seconds
     else:
         print("can't render video")
         return -1, -1, -1
-    FramestoCapturePS = 1  # fps / 3  # number of (frames)/(pair of frames) to capture in each second
+    FramestoCapturePS = fps / 3  # number of (frames)/(pair of frames) to capture in each second
 
     NumFrames = FramestoCapturePS * duration
     counter = 0
@@ -69,13 +66,14 @@ def predictEmoHOF(vid, start, end):
         predicted_labels_hof_emo.append(int(hof_svm_emo.predict(hoffeature.reshape(1, -1))[1].ravel()[0]))
     # do majority voting and append respectively
     predicted_labels_hof_emocounter = collections.Counter(predicted_labels_hof_emo)
+    labelHof=0
     try:
         labelHof = predicted_labels_hof_emocounter.most_common(1)[0][0]
     except IndexError:
         print ("there are no faces")
         return -1
-    return labelHOF
-def predictEmoHOG(vid, start, end):
+    return labelHof
+def predictEmoHOG(vid, start, end, hog_svm_emo):
     print("PredictEmoHOG")
     predicted_labels_hog_emo = []
     # get random "pairs" of frames
@@ -83,18 +81,14 @@ def predictEmoHOG(vid, start, end):
     # extract HoG & HOF Features
     # reload svm
     # predict label
-    folder_path = "../modules/"
-    hog_file = 'HOGsvm1.xml'
-    hog_svm_emo = cv2.ml.SVM_load(folder_path + hog_file)
-
     fps = vid.get(cv2.CAP_PROP_FPS)
     frameCount = int(vid.get(cv2.CAP_PROP_FRAME_COUNT))
     if fps > 0:
-        duration = float(frameCount) / float(fps)  # in seconds
+        duration = end - start  # in seconds
     else:
         print("can't render video")
         return -1, -1, -1
-    FramestoCapturePS = 1  # fps / 3  # number of (frames)/(pair of frames) to capture in each second
+    FramestoCapturePS =  fps / 3  # number of (frames)/(pair of frames) to capture in each second
 
     NumFrames = FramestoCapturePS * duration
     counter = 0
@@ -129,13 +123,14 @@ def predictEmoHOG(vid, start, end):
         predicted_labels_hog_emo.append(int(hog_svm_emo.predict(hogfeature.reshape(1, -1))[1].ravel()[0]))
     # do majority voting and append respectively
     predicted_labels_hog_emocounter = collections.Counter(predicted_labels_hog_emo)
+    labelHog=0
     try:
         labelHog = predicted_labels_hog_emocounter.most_common(1)[0][0]
     except IndexError:
         print ("there are no faces")
         return -1
-    return labelHOG
-def PredictEmoBoth(vid, start, end):
+    return labelHog
+def PredictEmoBoth(vid, start, end, hog_svm_emo ,hof_svm_emo):
     print("PredictEmoBoth")
     predicted_labels_hog_emo = []
     predicted_labels_hof_emo = []
@@ -144,20 +139,14 @@ def PredictEmoBoth(vid, start, end):
     # extract HoG & HOF Features
     # reload svm
     # predict label
-    folder_path = "../modules/"
-    hof_file = "HOFsvm1.xml"
-    hog_file = 'HOGsvm1.xml'
-    hog_svm_emo = cv2.ml.SVM_load(folder_path+hog_file)
-    hof_svm_emo = cv2.ml.SVM_load(folder_path+hof_file)
-
     fps = vid.get(cv2.CAP_PROP_FPS)
     frameCount = int(vid.get(cv2.CAP_PROP_FRAME_COUNT))
     if fps > 0:
-        duration = float(frameCount) / float(fps)  # in seconds
+        duration = end - start  # in seconds
     else:
         print("can't render video")
         return -1, -1, -1
-    FramestoCapturePS = 1  # fps / 3  # number of (frames)/(pair of frames) to capture in each second
+    FramestoCapturePS =  fps / 3  # number of (frames)/(pair of frames) to capture in each second
 
     NumFrames = FramestoCapturePS * duration
     counter = 0
@@ -194,19 +183,14 @@ def PredictEmoBoth(vid, start, end):
         predicted_labels_hog_emo.append(int(hog_svm_emo.predict(hogfeature.reshape(1, -1))[1].ravel()[0]))
 
     # do majority voting and append respectively
-    predicted_labels_hog_emocounter = collections.Counter(predicted_labels_hog_emo)
-    predicted_labels_hof_emocounter = collections.Counter(predicted_labels_hof_emo)
+
     predictedlabelsBOTHcounter =collections.Counter(predicted_labels_hof_emo+predicted_labels_hog_emo)
-
+    labelboth=0
     try:
-        labelHog = predicted_labels_hog_emocounter.most_common(1)[0][0]
-        labelHof = predicted_labels_hof_emocounter.most_common(1)[0][0]
         labelboth = predictedlabelsBOTHcounter.most_common(1)[0][0]
-
     except IndexError:
         print ("there are no faces")
         return -1
-
     return labelboth
 
 def PredictGender(vid, start, end):
@@ -214,7 +198,7 @@ def PredictGender(vid, start, end):
     print("Predict Gender")
     predicted_labels_hog_emo = []
     folder_path = "../modules/"
-    hog_svm_file = "genderDetectionModel.xml"
+    hog_svm_file = "genderDetectionModelcrop.xml"
     hog_svm_emo = cv2.ml.SVM_load(folder_path+hog_svm_file)
 
     fps = vid.get(cv2.CAP_PROP_FPS)
@@ -234,7 +218,7 @@ def PredictGender(vid, start, end):
             print(str(frameCount) + "err1")
             continue
         face, img, x, y = facedetecion.detect(frame)  # get only the face of each frame
-        if counter > 1000:
+        if counter > 100:
             print("can't find faces in video")
             return -1
         if face is not None:  # check if either images does not contain a face go and get an other frame
@@ -244,6 +228,64 @@ def PredictGender(vid, start, end):
     final_label = int(hog_svm_emo.predict(hog_feature.reshape(1, -1))[1].ravel()[0])
     return final_label
 
+def PredictGender1(vid, start, end):
+
+    print("Predict Gender")
+    predicted_labels_hog_emo = []
+    # get random frames
+    # get only the face of the frame
+    # extract HoG Features
+    # reload svm
+    # predict label
+    folder_path = "../modules/"
+    hog_svm_file = "genderDetectionModelcrop.xml"
+    hog_svm_emo = cv2.ml.SVM_load(folder_path+hog_svm_file)
+
+    fps = vid.get(cv2.CAP_PROP_FPS)
+    frameCount = int(vid.get(cv2.CAP_PROP_FRAME_COUNT))
+    if fps > 0:
+        duration = end-start  # in seconds
+    else:
+        print("can't render video")
+        return -1, -1, -1
+    FramestoCapturePS = 1  # fps / 3  # number of (frames)/(frames to capture in each second)
+
+    NumFrames = FramestoCapturePS * duration  # frames to get from the whole vid
+    counter = 0
+    if NumFrames > 30:
+        NumFrames = 30
+    print(NumFrames)
+    for f in range(int(NumFrames)):
+        while True:  # to ensure the captured frame contains a face
+            counter = counter + 1
+            currentFrameTime = random.randint(int(fps * start), int(fps * end))
+            vid.set(1, currentFrameTime)  # "1" the property index to get the specified frame
+            ret, frame1 = vid.read()      # ret indicates success of read process(true/false)(ex: false > end of video)
+            if not ret:					  # to ensure the frame was read correctly
+                print(str(frameCount) + "err1")
+                continue
+            if not ret:
+                print("err2")
+                continue
+            face1, img1, x, y = facedetecion.detect(frame1)  # get only the face of each frame
+            if counter == 100:
+                break
+            if face1 is not None:  # check if either images does not contain a face go and get an other frame
+                    break
+        if counter == 100:
+            print("SKIP******************* Can't find a face")
+            break
+
+        hog_feature = get_HOG.getHOGfeatures128(face1)
+        predicted_labels_hog_emo.append(int(hog_svm_emo.predict(hog_feature.reshape(1, -1))[1].ravel()[0]))
+    # do majority voting and append respectively
+    predicted_labels_hog_emocounter = collections.Counter(predicted_labels_hog_emo)
+    try:
+        final_label = predicted_labels_hog_emocounter.most_common(1)[0][0]
+        return final_label
+    except:
+        print("no faces")
+        return -1
 
 """
 def predict_both(vid, start, end):

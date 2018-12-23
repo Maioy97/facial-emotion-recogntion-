@@ -11,9 +11,9 @@ def write_labels(vid, emo_vote, gender_vote, start, end):
     frame_count = int(vid.get(cv.CAP_PROP_FRAME_COUNT))
     start_frame = int(start * fps)
     end_frame = int(end * fps)
-    height = vid.get(cv.CAP_PROP_FRAME_HEIGHT)
-    width = vid.get(cv.CAP_PROP_FRAME_WIDTH)
-    fourcc = vid.get(cv.CAP_PROP_FOURCC)  # cv.VideoWriter_fourcc(*' DIVX')
+    #height = vid.get(cv.CAP_PROP_FRAME_HEIGHT)
+    #width = vid.get(cv.CAP_PROP_FRAME_WIDTH)
+    #fourcc = vid.get(cv.CAP_PROP_FOURCC)  # cv.VideoWriter_fourcc(*' DIVX')
     #out = cv.VideoWriter("../output/"+'output.mp4', fourcc, int(fps), (int(width),int( height)))
 
     label_string = ""
@@ -37,18 +37,19 @@ def write_labels(vid, emo_vote, gender_vote, start, end):
     elif gender_vote == 1:
         label_string += " Woman"
     # loop over frames and write labels for each frame
+        vid.set(1, start_frame)            # "1" the property index to get the specified frame
     for f in range(start_frame, end_frame):
-        vid.set(1, f)            # "1" the property index to get the specified frame
         ret, frame = vid.read()  # ret indicates success of read process(true/false)(ex: false > end of video)
-        if width > 1000:
-            frame = cv.resize(frame, (int(width / 5), int(height / 5)))
         if not ret:              # to ensure the frame was read correctly
             print(str(frame_count) + " err1")
             continue
+        height, width, channels = frame.shape
+        if width > 1000:
+            frame = cv.resize(frame, (int(width / 3), int(height / 3)))
         face, img, x, y = facedetecion.detect(frame)  # get only the face of each frame
         # writing labels
-        n_frame = cv.putText(img, label_string, (x - 50, y - 50), font, 0.8, (255, 255, 255), 2, cv.LINE_AA)
-        cv.imshow("vid",n_frame)
+        n_frame = cv.putText(img, label_string, (x - 50, y - 10), font, 0.8, (0, 0, 255), 2, cv.LINE_AA)
+        cv.imshow(label_string,n_frame)
         # out.write(n_frame)
         if cv.waitKey(1) & 0xFF == ord('q'):
             break
