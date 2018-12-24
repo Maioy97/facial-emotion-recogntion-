@@ -193,13 +193,10 @@ def PredictEmoBoth(vid, start, end, hog_svm_emo ,hof_svm_emo):
         return -1
     return labelboth
 
-def PredictGender(vid, start, end):
+def PredictGender(vid, start, end,hog_svm_gen ):
 
     print("Predict Gender")
     predicted_labels_hog_emo = []
-    folder_path = "../modules/"
-    hog_svm_file = "genderDetectionModelcrop.xml"
-    hog_svm_emo = cv2.ml.SVM_load(folder_path+hog_svm_file)
 
     fps = vid.get(cv2.CAP_PROP_FPS)
     frameCount = int(vid.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -225,10 +222,10 @@ def PredictGender(vid, start, end):
             break
 
     hog_feature = get_HOG.getHOGfeatures128(face)
-    final_label = int(hog_svm_emo.predict(hog_feature.reshape(1, -1))[1].ravel()[0])
+    final_label = int(hog_svm_gen.predict(hog_feature.reshape(1, -1))[1].ravel()[0])
     return final_label
 
-def PredictGender1(vid, start, end):
+def PredictGender1(vid, start, end,hog_svm_gen ):
 
     print("Predict Gender")
     predicted_labels_hog_emo = []
@@ -237,9 +234,6 @@ def PredictGender1(vid, start, end):
     # extract HoG Features
     # reload svm
     # predict label
-    folder_path = "../modules/"
-    hog_svm_file = "genderDetectionModelcrop.xml"
-    hog_svm_emo = cv2.ml.SVM_load(folder_path+hog_svm_file)
 
     fps = vid.get(cv2.CAP_PROP_FPS)
     frameCount = int(vid.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -277,7 +271,7 @@ def PredictGender1(vid, start, end):
             break
 
         hog_feature = get_HOG.getHOGfeatures128(face1)
-        predicted_labels_hog_emo.append(int(hog_svm_emo.predict(hog_feature.reshape(1, -1))[1].ravel()[0]))
+        predicted_labels_hog_emo.append(int(hog_svm_gen.predict(hog_feature.reshape(1, -1))[1].ravel()[0]))
     # do majority voting and append respectively
     predicted_labels_hog_emocounter = collections.Counter(predicted_labels_hog_emo)
     try:

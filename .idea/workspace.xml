@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bf5f586e-0e18-4588-bb84-e85ce3202865" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labeldetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/labeldetection.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/predict.py" beforeDir="false" afterPath="$PROJECT_DIR$/predict.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/video_input.py" beforeDir="false" afterPath="$PROJECT_DIR$/video_input.py" afterDir="false" />
     </list>
@@ -173,7 +172,7 @@
     <session id="-1578648965">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="8" />
+          <entry key="project.closed" value="9" />
           <entry key="project.open.time.118" value="1" />
           <entry key="project.open.time.172" value="1" />
           <entry key="project.open.time.26" value="1" />
@@ -184,18 +183,19 @@
           <entry key="project.open.time.38" value="2" />
           <entry key="project.open.time.40" value="1" />
           <entry key="project.open.time.41" value="1" />
-          <entry key="project.opened" value="11" />
+          <entry key="project.open.time.71" value="1" />
+          <entry key="project.opened" value="12" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="56" />
-          <entry key="py" value="2519" />
+          <entry key="py" value="2534" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="2575" />
+          <entry key="Python" value="2590" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -290,11 +290,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/video_input.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="28" column="57" lean-forward="true" selection-start-line="28" selection-start-column="57" selection-end-line="28" selection-end-column="57" />
-              <folding>
-                <element signature="e#316#602#1" />
-              </folding>
+            <state relative-caret-position="220">
+              <caret line="49" column="77" selection-start-line="49" selection-start-column="77" selection-end-line="49" selection-end-column="77" />
             </state>
           </provider>
         </entry>
@@ -314,8 +311,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/labeldetection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
-              <caret line="52" column="28" lean-forward="true" selection-start-line="52" selection-start-column="28" selection-end-line="52" selection-end-column="28" />
+            <state relative-caret-position="867">
+              <caret line="52" column="28" selection-start-line="52" selection-start-column="28" selection-end-line="52" selection-end-column="28" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
               </folding>
@@ -326,21 +323,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/predict.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="132" column="62" selection-start-line="132" selection-start-column="62" selection-end-line="132" selection-end-column="62" />
+            <state relative-caret-position="537">
+              <caret line="273" column="55" selection-start-line="273" selection-start-column="55" selection-end-line="273" selection-end-column="55" />
               <folding>
                 <element signature="e#0#102#1" />
                 <element signature="e#103#121#0" expanded="true" />
-                <element signature="e#259#2747#0" />
-                <element signature="e#320#350#0" />
-                <element signature="e#2710#5068#0" />
-                <element signature="e#2849#2879#0" />
-                <element signature="e#5133#7771#0" />
-                <element signature="e#5407#5437#0" />
-                <element signature="e#5938#5991#0" />
-                <element signature="e#8458#9878#0" />
-                <element signature="e#9206#11626#0" />
-                <element signature="e#9881#13710#1" />
+                <element signature="e#5107#7687#0" />
               </folding>
             </state>
           </provider>
@@ -407,9 +395,9 @@
         <option value="$PROJECT_DIR$/get_HOF.py" />
         <option value="$PROJECT_DIR$/genderdetection.py" />
         <option value="$PROJECT_DIR$/get_HOG.py" />
-        <option value="$PROJECT_DIR$/video_input.py" />
-        <option value="$PROJECT_DIR$/predict.py" />
         <option value="$PROJECT_DIR$/labeldetection.py" />
+        <option value="$PROJECT_DIR$/predict.py" />
+        <option value="$PROJECT_DIR$/video_input.py" />
       </list>
     </option>
   </component>
@@ -857,37 +845,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/predict.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="132" column="62" selection-start-line="132" selection-start-column="62" selection-end-line="132" selection-end-column="62" />
-          <folding>
-            <element signature="e#0#102#1" />
-            <element signature="e#103#121#0" expanded="true" />
-            <element signature="e#259#2747#0" />
-            <element signature="e#320#350#0" />
-            <element signature="e#2710#5068#0" />
-            <element signature="e#2849#2879#0" />
-            <element signature="e#5133#7771#0" />
-            <element signature="e#5407#5437#0" />
-            <element signature="e#5938#5991#0" />
-            <element signature="e#8458#9878#0" />
-            <element signature="e#9206#11626#0" />
-            <element signature="e#9881#13710#1" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/labeldetection.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="52" column="28" lean-forward="true" selection-start-line="52" selection-start-column="28" selection-end-line="52" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/get_HOG.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1037">
@@ -898,13 +855,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/labeldetection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="867">
+          <caret line="52" column="28" selection-start-line="52" selection-start-column="28" selection-end-line="52" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predict.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="537">
+          <caret line="273" column="55" selection-start-line="273" selection-start-column="55" selection-end-line="273" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#102#1" />
+            <element signature="e#103#121#0" expanded="true" />
+            <element signature="e#5107#7687#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/video_input.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="28" column="57" lean-forward="true" selection-start-line="28" selection-start-column="57" selection-end-line="28" selection-end-column="57" />
-          <folding>
-            <element signature="e#316#602#1" />
-          </folding>
+        <state relative-caret-position="220">
+          <caret line="49" column="77" selection-start-line="49" selection-start-column="77" selection-end-line="49" selection-end-column="77" />
         </state>
       </provider>
     </entry>

@@ -24,6 +24,8 @@ Vote = Vote.upper()
 folder_path = "../modules/"
 hog_file = 'HOGsvmRBF.xml'
 hof_file = "HOFsvmLinear.xml"
+hog_gen_file = "genderDetectionModelcrop3.xml"
+hog_svm_gen = cv2.ml.SVM_load(folder_path + hog_gen_file )
 
 if Vote == "HOG":
     hog_svm_emo = cv2.ml.SVM_load(folder_path + hog_file)
@@ -45,8 +47,8 @@ while(y=="y"):
     else:
         print("Can't render video")
 
-    gender_vote=predict.PredictGender1(video_capture, 0, duration)
-
+    gender_vote=predict.PredictGender(video_capture, 0, duration,hog_svm_gen)
+    print(gender_vote)
     i=0
     while i < duration:
 
